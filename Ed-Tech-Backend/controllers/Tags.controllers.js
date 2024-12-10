@@ -36,9 +36,10 @@ exports.createTag = async (req, res) => {
 exports.showAlltags = async (req, res) => {
     try {
         const allTags = await Tag.find({}, {name:true, description:true});
-        res.status(200).json({
+        return res.status(200).json({
             success: true,
             message:"All tags return successfully",
+            allTags,
         })
     } catch (error) {
         return res.status(500).json({
