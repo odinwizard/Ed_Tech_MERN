@@ -80,7 +80,7 @@ exports.createCourse = async (req, res) => {
 
 //getAllCourses handler function....
 
-exports.showAllCourses = async (req, res) => {
+exports.getAllCourses = async (req, res) => {
     try {
         const allCourses = await Course.find({}, {courseName:true,
                                                     price:true,
@@ -101,6 +101,47 @@ exports.showAllCourses = async (req, res) => {
             success:false,
             message:"Can not fetch details",
             error:error.message
+        })
+    }
+}
+
+//getCourse details...
+
+exports.getAllCourses = async (req, res) => {
+    try {
+        const {courseId} = req.body;
+        const courseDetails = await Course.find(
+                                {_id:courseId}).populate(
+                                        {
+                                            path:"instructor",
+                                            populate:{
+                                                path:"additionalDetails",
+                                            },
+                                        }
+                                ).populate("category")
+                                 .populate("ratingAndReviews")
+                                 .populate({
+                                    path:"courseContent",
+                                    populate:{
+                                        path:"subSection",
+                                    },
+                                 }).exec();
+        if(!courseDetails){
+            return res.status(400).json({
+                success:false,
+                message:`Could not find the course with ${courseId}`,
+            });
+        }
+        return res.status(200).jaon({
+            success:true,
+            message:"Course details fetched successfully",
+            data:courseDetails,
+        })
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            success:false,
+            message:error.message,
         })
     }
 }
