@@ -1,7 +1,7 @@
 const Course = require("../models/Course.models");
-const Tag = require("../models/Tag.models");
+const Tag = require("../models/Category.models");
 const User = require("../models/User.models");
-const {uploadImageToCloudinary} = require("../utils/imageUploader.util");
+const {uploadImageToCloudinary} = require("../utils/fileUploader.util");
 
 //createCourse handler function
 

@@ -3,7 +3,7 @@ const {instance} = require("../config/razorpay");
 const Course = require("../models/Course.models");
 const User = require("../models/User.models");
 const mailSender = require("../utils/mailSender.util");
-//const {courseEnrollmentEmail} = require("../")
+const {courseEnrollmentEmail} = require("../mail/templates/courseEnrollmentEmail");
 
 
 //capture the payment and initiate the Razorpay order
