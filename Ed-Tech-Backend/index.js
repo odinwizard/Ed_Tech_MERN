@@ -39,8 +39,8 @@ cloudinaryConnect();
 //routes
 app.use("/api/v1/auth", userRoutes);
 app.use("/api/v1/profile", profileRoutes);
-app.use("/api/v1/course", paymentRoutes);
-app.use("/api/v1/payment", courseRoutes);
+app.use("/api/v1/payment", paymentRoutes);
+app.use("/api/v1/course", courseRoutes);
 
 //default route
 app.get("/", (req, res) => {
@@ -51,7 +51,7 @@ app.get("/", (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`App is running on ${PORT}`)
+    console.log(`App is running on ${PORT}`);
 });
 
 

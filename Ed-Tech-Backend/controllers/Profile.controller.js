@@ -1,36 +1,36 @@
 const Profile = require("../models/Profile.models");
 const User = require("../models/User.models");
-const { uploadImageToCloudinary} = require("../utils/fileUploader.util");
+const { uploadFileToCloudinary } = require("../utils/fileUploader.util");
 
 
 exports.updateProfile = async (req, res) => {
     try {
         //get data
-        const {dateOfBirth="", about="", contactNumber, gender} = req.body;
+        const {dateOfBirth="", about="", contactNumber } = req.body;
         //get userId
         const id = req.user.id;
         //validation
-        if(!contactNumber || !gender || !id) {
-            return res.status(400).json({
-                success:false,
-                message:"All fields are required"
-            });
-        }
+        // if(!contactNumber || !gender || !id) {
+        //     return res.status(400).json({
+        //         success:false,
+        //         message:"All fields are required"
+        //     });
+        // }
         //find profile
         const userDetails = await User.findById(id);
-        const profileId = userDetails.additionalDetails;
-        const profileDetails = await Profile.findById(profileId);
+        //const profileId = userDetails.additionalDetails;
+        const profile = await Profile.findById(userDetails.additionalDetails);
         //update profile
-        profileDetails.dateOfBirth = dateOfBirth;
-        profileDetails.about = about;
-        profileDetails.gender = gender;
-        profileDetails.contactNumber = contactNumber;
-        await profileDetails.save();
+        profile.dateOfBirth = dateOfBirth;
+        profile.about = about;
+        profile.gender = gender;
+        profile.contactNumber = contactNumber;
+        await profile.save();
         //return response
         return res.status(200).json({
             success:true,
             message:"Profile updated successfully",
-            profileDetails,
+            profile,
         });
     } catch (error) {
         return res.status(500).json({
@@ -45,7 +45,7 @@ exports.deleteAccount = async (req, res) => {
         //get id
         const id = req.user.id;
         //validation
-        const userDetails = await User.findById(id);
+        const userDetails = await User.findById({_id: id});
         if(!userDetails) {
             return res.status(404).json({
                 success:false,
@@ -95,7 +95,7 @@ exports.updateDisplayPicture = async (req, res) => {
     try {
       const displayPicture = req.files.displayPicture
       const userId = req.user.id
-      const image = await uploadImageToCloudinary(
+      const image = await uploadFileToCloudinary(
         displayPicture,
         process.env.FOLDER_NAME,
         1000,
