@@ -1,5 +1,7 @@
 const User = require("../models/User.models");
 const mailSender = require("../utils/mailSender.util");
+const crypto = require("crypto");
+const bcrypt = require("bcrypt");
 
 
 //resetPasswordToken
@@ -32,7 +34,7 @@ exports.resetPasswordToken = async (req, res) => {
                       `Password Reset Link: ${url}`
      );
      //return response
-     return Response.json({
+     return res.status(200).json({
          success:true,
          message: "Email sent successfully, please check email and change password"
      });
@@ -46,7 +48,7 @@ exports.resetPasswordToken = async (req, res) => {
     
 }
 
-exports.resetPassword = async (req,res) => {
+exports.resetPassword = async (req, res) => {
     try {
         //data fetch
         const {password, confirmPassword, token} = req.body;
@@ -67,20 +69,24 @@ exports.resetPassword = async (req,res) => {
             });
         }
         //token expiry check
-        if(userDetails.resetPasswordExpires < Date.now()){
-            return res.json({
+        if(!(userDetails.resetPasswordExpires > Date.now())){
+            return res.status(403).json({
                 success:false,
                 message:"Token is experied please regenerate the token"
             });
         }
         //hash password
-        const hashedPassword = await bcypt.hash(password, 10);
+        const hashedPassword = await bcrypt.hash(password, 10);
         //password update
         await User.findOneAndUpdate(
             {token:token},
             {password:hashedPassword},
             {new:true},
         );
+        res.json({
+            success: true,
+            message:`Password Reset Successfully`,
+        })
     } catch (error) {
         console.error(error);
         return res.status(200).json({

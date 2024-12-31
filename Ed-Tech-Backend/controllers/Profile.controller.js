@@ -23,7 +23,7 @@ exports.updateProfile = async (req, res) => {
         //update profile
         profile.dateOfBirth = dateOfBirth;
         profile.about = about;
-        profile.gender = gender;
+        //profile.gender = gender;
         profile.contactNumber = contactNumber;
         await profile.save();
         //return response
@@ -113,6 +113,7 @@ exports.updateDisplayPicture = async (req, res) => {
         data: updatedProfile,
       })
     } catch (error) {
+      console.error(error)
       return res.status(500).json({
         success: false,
         message: error.message,

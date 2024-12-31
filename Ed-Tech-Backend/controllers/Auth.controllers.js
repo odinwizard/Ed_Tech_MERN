@@ -1,7 +1,9 @@
 const User = require("../models/User.models");
 const OTP = require("../models/Otp.models");
 const otpGenerator = require("otp-generator");
+const mailSender = require("../utils/mailSender.util");
 const { passwordUpdated } = require("../mail/templates/passwordUpdate");
+const {otpTemplate} = require("../mail/templates/emailVerificationTemplates")
 const Profile = require("../models/Profile.models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -49,6 +51,14 @@ exports.sendOTP = async (req, res) => {
                 console.log(otpBody);
 
                 //return response successfully.............
+                const emailContent = otpTemplate(otpBody.otp);
+                const emailResponse = await mailSender(
+                    otpBody.email,
+                    "OTP Verification - StudyNotion",
+                    emailContent,
+                    );
+
+                console.log(emailResponse);
 
                 res.status(200).json({
                     success:true,
@@ -188,7 +198,7 @@ exports.login = async (req, res) => {
                      accountType: user.accountType,
                  }
                  const token = jwt.sign(payload, process.env.JWT_SECRET, {
-                     expiresIn:"2h",
+                     expiresIn:"24h",
                  });
                  user.token = token;
                  user.password = undefined;

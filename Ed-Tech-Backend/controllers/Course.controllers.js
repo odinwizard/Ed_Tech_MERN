@@ -1,26 +1,29 @@
 const Course = require("../models/Course.models");
-const Tag = require("../models/Category.models");
+const Category = require("../models/Category.models");
 const User = require("../models/User.models");
-const {uploadImageToCloudinary} = require("../utils/fileUploader.util");
+const {uploadFileToCloudinary} = require("../utils/fileUploader.util");
 
 //createCourse handler function
 
 exports.createCourse = async (req, res) => {
     try {
         //fetch data.......
-        const {courseName, courseDescription, whatYouWillLearn, price, tag} = req.body;
+        let {courseName, courseDescription, whatYouWillLearn, price, tag, category, status, instructions} = req.body;
         //get thumbnail....
         const thumbnail = req.files.thumbnailImage;
         //validation.......
-        if(!courseName || !courseDescription || !whatYouWillLearn || !price || !tag) {
+        if(!courseName || !courseDescription || !whatYouWillLearn || !price || !tag || !thumbnail || !category) {
             return res.status(400).json({
                 success:false,
                 message:"All fields are mandetory",
             });
         }
+        if(!status || status === undefined) {
+            status = "Draft";
+        }
         //check for instructor
-        const userId = req.user._id;
-        const instructorDetails = await User.findById(userId);
+        const userId = req.user.id;
+        const instructorDetails = await User.findById(userId, {accountType: "Instructor"});
         console.log("Instructor Details: ", instructorDetails);
 
         if(!instructorDetails) {
@@ -29,29 +32,32 @@ exports.createCourse = async (req, res) => {
                 message:"Instructor Details not found",
             });
         }
-        //check given tag is valid or not?
-        const tagDetails = await Tag.findById(tag);
-        if(!tagDetails){
+        //check given Category is valid or not?
+        const categoryDetails = await Category.findById(category);
+        if(!categoryDetails){
             return res.status(404).json({
                 success:false,
-                message: "Tag Details Not Found",
+                message: "Category Details Not Found",
             });
         }
         //Upload image to cloudinary
-        const thumbnailImage = await uploadImageToCloudinary(thumbnail, process.env.FOLDER_NAME);
+        const thumbnailImage = await uploadFileToCloudinary(thumbnail, process.env.FOLDER_NAME);
         //create an entry for new course
         const newCourse = await Course.create({
             courseName,
-            courseDescription,
-            instructor: instructorDetails._id,
-            whatYouWillLearn,
-            price,
-            tag: tagDetails._id,
-            thumbnail:thumbnailImage.secure_url,
+			courseDescription,
+			instructor: instructorDetails._id,
+			whatYouWillLearn: whatYouWillLearn,
+			price,
+			tag: tag,
+			category: categoryDetails._id,
+			thumbnail: thumbnailImage.secure_url,
+			status: status,
+			instructions: instructions,
         });
         //add the new course to the user schema of instructor.
          await User.findByIdAndUpdate(
-            {id:instructorDetails._id},
+            { _id:instructorDetails._id },
             {
                 $push:{
                     courses:newCourse._id,
@@ -59,14 +65,14 @@ exports.createCourse = async (req, res) => {
             },
             {new:true},
          );
-         //update the Tag schema
+         //update the Category schema
 
          //return response
          return res.status(200).json({
             success:true,
             message:"Course created successfully",
             data:newCourse,
-         })
+         });
 
     } catch (error) {
         console.error(error);
@@ -132,7 +138,7 @@ exports.getCoursesDetais = async (req, res) => {
                 message:`Could not find the course with ${courseId}`,
             });
         }
-        return res.status(200).jaon({
+        return res.status(200).json({
             success:true,
             message:"Course details fetched successfully",
             data:courseDetails,

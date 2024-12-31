@@ -50,7 +50,7 @@ exports.updateSection = async (req, res) => {
                 message:"Missing Properties",
             });
         }
-        const section = await Section.findByIdAndDelete(sectionId, {sectionName}, {new:true});
+        const section = await Section.findByIdAndUpdate(sectionId, {sectionName}, {new:true});
 
         return res.status(200).json({
             success:true,

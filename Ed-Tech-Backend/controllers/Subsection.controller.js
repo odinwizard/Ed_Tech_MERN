@@ -8,7 +8,7 @@ exports.createSubsection = async (req, res) => {
         //fetch data from req body
         const {sectionId, title, timeDuration, description} = req.body;
         //extract file/video
-        const video = req.files.vidoFiles;
+        const video = req.files.videoFile;
         //validation
         if(!sectionId || !title || !timeDuration || !description) {
             return res.status(400).json({
@@ -29,9 +29,9 @@ exports.createSubsection = async (req, res) => {
         const updatedSection = await Section.findByIdAndUpdate(
                                         {_id:sectionId},
                                         {$push: {
-                                            Subsection:subSectionDetails._id,
+                                            subSection:subSectionDetails._id,
                                         }},
-                                        {new:true}).populate('Subsection');
+                                        {new:true}).populate('subSection');
         //log updated section with adding populate query
         //log updated section
         console.log(updatedSection);

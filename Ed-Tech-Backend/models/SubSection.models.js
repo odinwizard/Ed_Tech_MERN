@@ -1,16 +1,10 @@
 const mongoose = require("mongoose");
 
 const SubSectionSchema = new mongoose.Schema({
-
-    title: {
-        type:String,
-    },
-    timeDuration: {
-        type: String,
-    },
-    videoUrl: {
-        type: String,
-    },
+    title: { type: String },
+	timeDuration: { type: String },
+	description: { type: String },
+	videoUrl: { type: String },
 
 });
 
