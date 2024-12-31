@@ -1,4 +1,4 @@
-const Subsection = require("../models/SubSection.models");
+const SubSection = require("../models/SubSection.models");
 const Section = require("../models/Section.models");
 const { uploadFileToCloudinary } = require("../utils/fileUploader.util");
 
@@ -19,7 +19,7 @@ exports.createSubsection = async (req, res) => {
         //upload video to cloudinary
         const uploadDetails = await uploadFileToCloudinary(video, process.env.FOLDER_NAME);
         //create a sub-section
-        const subSectionDetails = await Subsection.create({
+        const subSectionDetails = await SubSection.create({
             title:title,
             timeDuration:timeDuration,
             description:description,
@@ -31,7 +31,7 @@ exports.createSubsection = async (req, res) => {
                                         {$push: {
                                             subSection:subSectionDetails._id,
                                         }},
-                                        {new:true}).populate('subSection');
+                                        {new:true}).populate('subsection');
         //log updated section with adding populate query
         //log updated section
         console.log(updatedSection);
@@ -107,7 +107,7 @@ exports.deleteSubSection = async (req, res) => {
           },
         }
       )
-      const subSection = await subSection.findByIdAndDelete({ _id: subSectionId })
+      const subSection = await SubSection.findByIdAndDelete({ _id: subSectionId })
   
       if (!subSection) {
         return res

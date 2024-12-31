@@ -96,7 +96,7 @@ exports.getAllCourses = async (req, res) => {
                                                     studentEnrolled:true,
                                                    }).populate("instructor")
                                                      .exec();
-                return res.success(200).json({
+                return res.status(200).json({
                     success:true,
                     message:"Data for all couses fetched successfully",
                     data:allCourses,
@@ -113,7 +113,7 @@ exports.getAllCourses = async (req, res) => {
 
 //getCourse all details...
 
-exports.getCoursesDetais = async (req, res) => {
+exports.getCoursesDetails = async (req, res) => {
     try {
         const {courseId} = req.body;
         const courseDetails = await Course.find(

@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router();
 //import course controllers
-const {createCourse, getAllCourses, getCoursesDetais} = require("../controllers/Course.controllers");
+const {createCourse, getAllCourses, getCoursesDetails} = require("../controllers/Course.controllers");
 //import categories controllers
 const {createCategory, showAllCategories, categoryPageDetails} = require("../controllers/Category.controllers");
 //import section controllers
@@ -30,7 +30,7 @@ router.post("/addSubSection", auth, isInstructor, createSubsection);
 // Get all Registered Courses
 router.get("/getAllCourses", getAllCourses);
 // Get Details for a Specific Courses
-router.post("/getCourseDetails", getCoursesDetais);
+router.post("/getCourseDetails", getCoursesDetails);
 
 //for category routes
 //Category can Only be Created by Admin
