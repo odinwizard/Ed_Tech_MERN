@@ -129,6 +129,9 @@ module.exports = {
         maxContent: "1260px",
         maxContentTab: "650px"
       },
+      backgroundImage: {
+        'custom-gradient': 'linear-gradient(118.19deg, #1FA2FF -3.62%, #12D8FA 50.44%, #A6FFCB 104.51%)',
+      },
     },
   },
   plugins: [],
