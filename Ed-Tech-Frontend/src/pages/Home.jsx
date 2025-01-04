@@ -3,12 +3,13 @@ import React from 'react';
 import { FaArrowRight } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import Banner from '../assets/Images/banner.mp4';
+import { Footer } from '../components/common/Footer';
 import CTAButton from "../components/core/HomePage/Button";
 import { CodeBlocks } from '../components/core/HomePage/CodeBlocks';
 import { HighlightText } from '../components/core/HomePage/HighlightText';
+import { InstructorSection } from '../components/core/HomePage/InstructorSection';
 import { LearningLanguageSection } from '../components/core/HomePage/LearningLanguageSection';
 import { TimelineSection } from '../components/core/HomePage/TimelineSection';
-
 
 
 
@@ -172,8 +173,16 @@ const Home = () => {
                        
                     </div>
         {/*Section3 */}
+                    <div className='mx-auto w-11/12 max-w-maxContent flex flex-col items-center justify-between gap-7'>
+                            
+                            <InstructorSection />
+                            
+                            <h2 className='text-center text-4xl font-semibold mt-10 '>Review from other learner</h2>
+                            {/*Reviews slider here*/}
 
+                    </div> 
         {/*Footer */}
+        <Footer/>
     </div>
   )
 }
