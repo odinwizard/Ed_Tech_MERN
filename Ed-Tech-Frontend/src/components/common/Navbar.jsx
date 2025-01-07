@@ -14,7 +14,7 @@ export const Navbar = () => {
         <div className='flex w-11/12 max-w-maxContent items-center justify-between'>
 
         <Link to="/">
-            <img src={logo} width={160} height={32}/>
+            <img src={logo} alt='logoImage' width={160} height={32}/>
         </Link>
 
         <nav>
