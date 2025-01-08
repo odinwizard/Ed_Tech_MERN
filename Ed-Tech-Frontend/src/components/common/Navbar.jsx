@@ -1,9 +1,32 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { CiShoppingCart } from "react-icons/ci"
+import { useSelector } from 'react-redux'
 import { Link, matchPath, useLocation } from 'react-router-dom'
 import logo from "../../assets/Logo/Logo-Full-Light.png"
 import { NavbarLinks } from "../../data/navbar-links"
+import { ProfileDropDown } from "../core/Auth/ProfileDropDown"
 
 export const Navbar = () => {
+
+    const {token} = useSelector( (state) => state.auth);
+    const {user} = useSelector( (state) => state.profile);
+    const {totalItems} = useSelector( (state) => state.cart);
+
+    const [subLinks,setSubLinks] = useState([]);
+
+    // useEffect( () => {
+    //     async() => {
+    //         try {
+    //             const result = apiConnector( "GET", categories.CATEGORY_API);
+    //         } catch (error) {
+    //             console.log("Could not fetch the category list")
+    //         }
+    //     }
+    // },[])
+
+
+
+
     const location = useLocation();
     const matchRoute = (route) => {
         return matchPath({path:route}, location.pathname)
@@ -37,8 +60,47 @@ export const Navbar = () => {
                 }
             </ul>
         </nav>
+        {/* login/signup/dashboard */}
         <div className='flex gap-x-4 items-center'>
-
+                {
+                    user && user?.accountType !== "Instructor" && (
+                        <Link to="/dashboard/cart" className='relative'>
+                            <CiShoppingCart />
+                            {
+                                totalItems > 0 && (
+                                    <span>
+                                        {totalItems}
+                                    </span>
+                                )
+                            }
+                        </Link>
+                    )
+                }
+                {
+                    token === null && (
+                        <Link to="/login">
+                            <button className='border border-richblack-700 bg-richbalck-800 px-[12px] py-[8px]
+                            text-richblack-100 rounded-md
+                            '>
+                                Log in
+                            </button>
+                        </Link>
+                    )
+                }
+                {
+                    token === null && (
+                        <Link to="/signup">
+                            <button className='border border-richblack-700 bg-richbalck-800 px-[12px] py-[8px]
+                            text-richblack-100 rounded-md
+                            '>
+                                Sign up
+                            </button>
+                        </Link>
+                    )
+                }
+                {
+                    token !== null && <ProfileDropDown/>
+                }
         </div>
 
         </div>
