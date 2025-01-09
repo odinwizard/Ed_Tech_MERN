@@ -1,10 +1,15 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { CiShoppingCart } from "react-icons/ci"
 import { useSelector } from 'react-redux'
 import { Link, matchPath, useLocation } from 'react-router-dom'
 import logo from "../../assets/Logo/Logo-Full-Light.png"
 import { NavbarLinks } from "../../data/navbar-links"
+import { categories } from '../../services/api'
+import { apiConnector } from '../../services/apiconnector'
 import { ProfileDropDown } from "../core/Auth/ProfileDropDown"
+
+
+
 
 export const Navbar = () => {
 
@@ -14,15 +19,18 @@ export const Navbar = () => {
 
     const [subLinks,setSubLinks] = useState([]);
 
-    // useEffect( () => {
-    //     async() => {
-    //         try {
-    //             const result = apiConnector( "GET", categories.CATEGORY_API);
-    //         } catch (error) {
-    //             console.log("Could not fetch the category list")
-    //         }
-    //     }
-    // },[])
+    const fetchSublinks  =  async() => {
+        try {
+            const result = await apiConnector( "GET", categories.CATEGORY_API);
+            console.log("Printing Sublinks result:", result);
+            setSubLinks(result.data.data);
+        } catch (error) {
+            console.log("Could not fetch the category list")
+        }
+    }
+    useEffect( () => {
+        fetchSublinks();
+    },[])
 
 
 
@@ -46,7 +54,13 @@ export const Navbar = () => {
                     NavbarLinks.map( (link, index) => (
                         <li key={index}>
                             {
-                                link.title === "Catalog" ? (<div></div>) : (
+                                link.title === "Catalog" ? (
+                                    <div>
+                                        <p>{link.title}</p>
+                                    </div>
+                                    ) :
+                                
+                                 (
                                     <Link to={link?.path}>
                                         <p className={`${matchRoute(link?.path) ? "text-yellow-25" : "text-richblack-25"}`}>
                                          {link.title}
@@ -62,6 +76,7 @@ export const Navbar = () => {
         </nav>
         {/* login/signup/dashboard */}
         <div className='flex gap-x-4 items-center'>
+                
                 {
                     user && user?.accountType !== "Instructor" && (
                         <Link to="/dashboard/cart" className='relative'>
