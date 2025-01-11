@@ -1,22 +1,25 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { CiShoppingCart } from "react-icons/ci"
 import { IoIosArrowDown } from "react-icons/io"
 import { useSelector } from 'react-redux'
 import { Link, matchPath, useLocation } from 'react-router-dom'
 import logo from "../../assets/Logo/Logo-Full-Light.png"
 import { NavbarLinks } from "../../data/navbar-links"
+import { categories } from "../../services/api"
+import { apiConnector } from "../../services/apiconnector"
 import { ProfileDropDown } from "../core/Auth/ProfileDropDown"
 
-const sublinks = [
-    {
-        title: "python",
-        link: "/catalog/python"
-    },
-    {
-        title: "web dev",
-        link: "/catalog/web-developmnt"
-    },
-]
+
+// const subLinks = [
+//     {
+//         title: "python",
+//         link: "/catalog/python"
+//     },
+//     {
+//         title: "web dev",
+//         link: "/catalog/web-developmnt"
+//     },
+// ]
 
 
 export const Navbar = () => {
@@ -25,20 +28,23 @@ export const Navbar = () => {
     const {user} = useSelector( (state) => state.profile);
     const {totalItems} = useSelector( (state) => state.cart);
 
-    //const [subLinks,setSubLinks] = useState([]);
+    const [subLinks,setSubLinks] = useState([]);
 
-    // const fetchSublinks  =  async() => {
-    //     try {
-    //         const result = await apiConnector( "GET", categories.CATEGORY_API);
-    //         console.log("Printing Sublinks result:", result);
-    //         setSubLinks(result.data.data);
-    //     } catch (error) {
-    //         console.log("Could not fetch the category list")
-    //     }
-    // }
-    // useEffect( () => {
-    //     //fetchSublinks();
-    // },[])
+    const fetchsubLinks  =  async() => {
+        try {
+            const result = await apiConnector( "GET", categories.CATEGORY_API);
+            console.log("Printing subLinks result:", result);
+            setSubLinks(result.data.allCategory);
+          //console.log(result.data.allCategory);
+
+
+        } catch (error) {
+            console.log("Could not fetch the category list")
+        }
+    }
+    useEffect( () => {
+        fetchsubLinks();
+    },[])
 
 
 
@@ -78,18 +84,15 @@ export const Navbar = () => {
                                      h-6 w-6 rotate-45 rounded bg-richblack-5'>
                                     </div>
 
-                                        {
-                                            sublinks.length ? (
-                                                
-                                                    sublinks.map( (sublink, index) => (
-                                                        <Link to={`${sublink.link}`} key={index}>
-                                                            <p>{sublink.title}</p>
-                                                        </Link>
-                                                    ))
-                                                
-                                            ) : 
-                                            (<div></div>)
-                                        }
+                                    {
+                                    subLinks.length ? (
+                                            subLinks.map( (subLink, index) => (
+                                                <Link to={`${subLink.link}`} key={index}>
+                                                    <p>{subLink.name}</p>
+                                                </Link>
+                                            ) )
+                                    ) : (<div></div>)
+                                }
 
                                     </div>
 
