@@ -32,10 +32,10 @@ export const Navbar = () => {
 
     const fetchsubLinks  =  async() => {
         try {
-            const result = await apiConnector( "GET", categories.CATEGORY_API);
+            const result = await apiConnector( "GET", categories.CATEGORIES_API);
             console.log("Printing subLinks result:", result);
             setSubLinks(result.data.allCategory);
-          //console.log(result.data.allCategory);
+            //console.log(result.data.allCategory);
 
 
         } catch (error) {
@@ -59,7 +59,7 @@ export const Navbar = () => {
         <div className='flex w-11/12 max-w-maxContent items-center justify-between'>
 
         <Link to="/">
-            <img src={logo} alt='logoImage' width={160} height={32}/>
+            <img src={logo} alt='logoImage' width={160} height={42} loading='lazy'/>
         </Link>
 
         <nav>
