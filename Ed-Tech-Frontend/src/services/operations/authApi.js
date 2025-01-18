@@ -6,6 +6,8 @@ import { setUser } from "../../slices/profileSlice"
 import { endpoints } from "../api"
 import { apiConnector } from "../apiconnector"
 
+
+
 const {
   SENDOTP_API,
   SIGNUP_API,
@@ -15,6 +17,7 @@ const {
 } = endpoints
 
 export function sendOtp(email, navigate) {
+
   return async (dispatch) => {
     const toastId = toast.loading("Loading...")
     dispatch(setLoading(true))
