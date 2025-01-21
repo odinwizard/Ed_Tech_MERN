@@ -6,12 +6,12 @@ export const Quote = () => {
     <div>
         We are passionate about revolutionizing the way we learn. Our innovative platform 
         <HighlightText text={"combines technology"}/>,
-        <span className='text-orange'>
+        <span className='text-brown-500'>
             {" "}
             expertise
         </span>
         , and community to create an
-        <span>
+        <span className='text-brown-500'>
         {" "}
          unparalleled educational experience.
         </span>
