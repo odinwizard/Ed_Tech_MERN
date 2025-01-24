@@ -3,6 +3,7 @@ import BannerImage1 from "../assets/Images/aboutus1.webp"
 import BannerImage2 from "../assets/Images/aboutus2.webp"
 import BannerImage3 from "../assets/Images/aboutus3.webp"
 import FoundingStory from "../assets/Images/FoundingStory.png"
+import { ContactFormSection } from '../components/core/Aboute/ContactFormSection'
 import { LearningGrid } from '../components/core/Aboute/LearningGrid'
 import { Quote } from '../components/core/Aboute/Quote'
 import { StatsComponent } from '../components/core/Aboute/Stats'
@@ -14,7 +15,7 @@ import { HighlightText } from "../components/core/HomePage/HighlightText"
 
 export const About = () => {
   return (
-    <div className='mt-[100px] text-white'>
+    <div className='mx-auto mt-[100px] text-white w-11/12 max-w-maxContent'>
         {/* {section: 1} */}
         <section>
             <div>
@@ -79,7 +80,10 @@ export const About = () => {
         {/* {Section: 5} */}
         <section>
             <LearningGrid/>
+            <ContactFormSection/>
         </section>
+        {/* {Section:6} */}
+
     </div>
   )
 }
