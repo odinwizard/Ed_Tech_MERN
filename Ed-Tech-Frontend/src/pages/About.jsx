@@ -78,7 +78,7 @@ export const About = () => {
         {/* {section: 4} */}
         <StatsComponent/>
         {/* {Section: 5} */}
-        <section>
+        <section className='mx-auto flex flex-col items-center justify-between gap-5'>
             <LearningGrid/>
             <ContactFormSection/>
         </section>
