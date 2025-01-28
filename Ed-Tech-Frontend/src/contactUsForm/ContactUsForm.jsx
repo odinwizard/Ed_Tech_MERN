@@ -111,10 +111,11 @@ export const ContactUsForm = () => {
 
             <div className='flex flex-row gap-5'>
                 {/* {dropdown} */}
-                <div>
+                
                     <select
                         name='dropdown'
                         id='dropdown'
+                        className='bg-yellow-50 w-[80px]'
                         {...register("countrycode", {required:true})}
                     >
                         {
@@ -128,22 +129,22 @@ export const ContactUsForm = () => {
                             })
                         }
                     </select>
-                </div>
-                <div>
+               
+
                     <input
                         type='number'
                         name='phonenumber'
                         placeholder='Enter Phone number'
-                        className='text-black'
+                        className='text-black ]'
                         {...register("phoneNo",
                          {
                             required:{value:true, message:"Please Enter Phone Number"},
                             maxLength: {value:10, message:"Invalid Phone Number"},
-                            minLength: {value:8, message:"Invalid Phone Number"},
+                            minLength: {value:9, message:"Invalid Phone Number"},
                             })}
 
                     />
-                </div>
+              
                 {
                     errors.phoneNo && (
                         <span>
