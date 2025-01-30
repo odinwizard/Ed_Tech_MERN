@@ -4,6 +4,7 @@ import { Navbar } from "./components/common/Navbar";
 import OpenRoute from "./components/core/Auth/OpenRoute";
 import Home from "./pages/Home";
 
+import { MyProfile } from "./components/core/Dashboard/MyProfile";
 import { About } from "./pages/About";
 import { ForgotPassword } from "./pages/ForgotPassword";
 import Login from "./pages/Login";
@@ -68,10 +69,10 @@ function App() {
             </OpenRoute>
           }
         />
+{/* 
+          <Route path="/contact" element={<Contact/>} /> */}
 
-          <Route path="/contact" element={<Contact/>} />
-
-        <Route path="dashboard/my-profile" element={<MyProfile/}/>
+        <Route path="dashboard/my-profile" element={<MyProfile/>}/>
       </Routes>
       
      

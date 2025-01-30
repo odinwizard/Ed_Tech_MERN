@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const IconBtn = (
+export const IconBtn = ({
     text,
     onClick,
     children,
@@ -8,7 +8,7 @@ export const IconBtn = (
     outline=false,
     customClasses,
     type,
-) => {
+}) => {
   return (
     <button
         disabled={disabled}
