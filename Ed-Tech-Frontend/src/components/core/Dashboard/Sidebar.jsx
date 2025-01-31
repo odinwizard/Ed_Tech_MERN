@@ -5,7 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import { sidebarLinks } from '../../../data/dashboard-links';
 import { logout } from '../../../services/operations/authAPI';
 import { ConfirmationModal } from '../../common/ConfirmationModal';
-import SidebarLink from './SidebarLink';
+
+
+import { SidebarLink } from './SidebarLink';
 
 
 

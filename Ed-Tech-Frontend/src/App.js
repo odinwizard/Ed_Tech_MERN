@@ -4,14 +4,16 @@ import { Navbar } from "./components/common/Navbar";
 import OpenRoute from "./components/core/Auth/OpenRoute";
 import Home from "./pages/Home";
 
+import { PrivateRoute } from "./components/core/Auth/PrivateRoute";
 import { MyProfile } from "./components/core/Dashboard/MyProfile";
 import { About } from "./pages/About";
+import { Dashboard } from "./pages/Dashboard";
+import { Error } from "./pages/Error";
 import { ForgotPassword } from "./pages/ForgotPassword";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import { UpdatePassword } from "./pages/UpdatePassword";
 import { VerifyEmail } from "./pages/VerifyEmail";
-
 
 
 
@@ -72,7 +74,22 @@ function App() {
 {/* 
           <Route path="/contact" element={<Contact/>} /> */}
 
-        <Route path="dashboard/my-profile" element={<MyProfile/>}/>
+        <Route
+          element={
+            <PrivateRoute>
+                 <Dashboard/>
+            </PrivateRoute>
+          }
+          >
+            <Route path="dashboard/my-profile" element={<MyProfile/>}/>
+          </Route>
+          
+          
+
+        
+
+          <Route path="*" element={<Error/>} />
+
       </Routes>
       
      
