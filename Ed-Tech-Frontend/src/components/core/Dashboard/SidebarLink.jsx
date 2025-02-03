@@ -27,7 +27,7 @@ export const SidebarLink = ({link, iconName}) => {
 
         </span>
 
-        <div className='flex items-center gap-x-2'>
+        <div className='flex item-center gap-x-2'>
 
             <Icon className=" text-lg"/>
             <span>{link.name}</span>
