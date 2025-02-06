@@ -7,7 +7,7 @@ import Home from "./pages/Home";
 import { PrivateRoute } from "./components/core/Auth/PrivateRoute";
 import { MyProfile } from "./components/core/Dashboard/MyProfile";
 import { About } from "./pages/About";
-import { Dashboard } from "./pages/Dashboard";
+import Contact from "./pages/Contact";
 import { Error } from "./pages/Error";
 import { ForgotPassword } from "./pages/ForgotPassword";
 import Login from "./pages/Login";
@@ -71,13 +71,13 @@ function App() {
             </OpenRoute>
           }
         />
-{/* 
-          <Route path="/contact" element={<Contact/>} /> */}
+
+          <Route path="/contact" element={<Contact/>} />
 
         <Route
           element={
             <PrivateRoute>
-                 <Dashboard/>
+                 {/* <Dashboard/> */}
             </PrivateRoute>
           }
           >

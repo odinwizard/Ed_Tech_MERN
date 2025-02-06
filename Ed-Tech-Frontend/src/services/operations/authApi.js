@@ -142,7 +142,7 @@ export function getPasswordResetToken(email, setEmailSent) {
       toast.error("Failed To Send Reset Email")
     }
     toast.dismiss(toastId)
-    dispatch(setLoading(false))
+    dispatch(setLoading(false));
   }
 }
 
