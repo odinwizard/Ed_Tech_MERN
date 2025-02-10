@@ -18,7 +18,7 @@ export const SidebarLink = ({link, iconName}) => {
   return (
       <NavLink
       to={link.path}
-      // onClick={}
+      // onClick={() => dispatch(resetCourseState())}
       className={`relative px-8 py-2 text-sm font-medium ${matchRoute(link.path) ? "bg-yellow-800" : "bg-opacity-0"}`}
       >
 

@@ -8,6 +8,7 @@ import { PrivateRoute } from "./components/core/Auth/PrivateRoute";
 import { MyProfile } from "./components/core/Dashboard/MyProfile";
 import { About } from "./pages/About";
 import Contact from "./pages/Contact";
+import { Dashboard } from "./pages/Dashboard";
 import { Error } from "./pages/Error";
 import { ForgotPassword } from "./pages/ForgotPassword";
 import Login from "./pages/Login";
@@ -63,21 +64,14 @@ function App() {
             </OpenRoute>
           }
         />
-         <Route
-          path="about"
-          element={
-            <OpenRoute>
-              <About />
-            </OpenRoute>
-          }
-        />
+         <Route path="about" element={<About />} />
 
           <Route path="/contact" element={<Contact/>} />
 
         <Route
           element={
             <PrivateRoute>
-                 {/* <Dashboard/> */}
+                 <Dashboard/>
             </PrivateRoute>
           }
           >
