@@ -25,8 +25,8 @@ export const Sidebar = () => {
 
   if(profileLoading || authLoading) {
     return (
-        <div className='mt-28'>
-            loading...
+        <div className="grid h-[calc(100vh-3.5rem)] min-w-[220px] items-center border-r-[1px] border-r-richblack-700 bg-richblack-800">
+            <div className="spinner"></div>
         </div>
     )
 }
@@ -34,8 +34,7 @@ export const Sidebar = () => {
   return (
     <div className='text-white'>
 
-          <div className='flex min-w-[22px] flex-col border-r-[1px] border-r-richblack-700
-                h-[calc(100vh-3)] bg-richblack-800 py-10'>
+          <div className="flex h-[calc(100vh-3.5rem)] min-w-[220px] flex-col border-r-[1px] border-r-richblack-700 bg-richblack-800 py-10">
               <div className='flex flex-col'>
                   {
                     sidebarLinks.map( (link) => {
@@ -47,7 +46,7 @@ export const Sidebar = () => {
                   }
               </div>
 
-              <div className='mx-auto mt-6 mb-6 h-[1px ]  w-10/12 bg-richblack-600'></div>
+              <div className="mx-auto mt-6 mb-6 h-[1px] w-10/12 bg-richblack-700" ></div>
 
               <div className='flex flex-col'>
                   <SidebarLink
@@ -63,9 +62,9 @@ export const Sidebar = () => {
                      btn1Handler: () => dispatch(logout(navigate)),
                      btn2Handler: () => setConfirmationModal(null),
                   })}
-                  className='text-sm font-medium text-richblack-300'
+                  className="px-8 py-2 text-sm font-medium text-richblack-300"
                   >
-                  <div className='flex items-center'>
+                  <div className="flex items-center gap-x-2">
                   <VscSignOut
                     className='text-lg'
                    />

@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 
 import { PrivateRoute } from "./components/core/Auth/PrivateRoute";
 import { MyProfile } from "./components/core/Dashboard/MyProfile";
+import Settings from "./components/core/Dashboard/Settings";
 import { About } from "./pages/About";
 import Contact from "./pages/Contact";
 import { Dashboard } from "./pages/Dashboard";
@@ -76,7 +77,7 @@ function App() {
           }
           >
             <Route path="dashboard/my-profile" element={<MyProfile/>}/>
-            {/* <Route path="dashboard/setting" element={<Setting/>}/> */}
+            <Route path="dashboard/settings" element={<Settings/>}/>
           </Route>
            
          
