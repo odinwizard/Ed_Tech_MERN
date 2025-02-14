@@ -23,7 +23,7 @@ export const EnrolledCourses = () => {
 
 
   return (
-    <div>
+    <div className='text-white'>
         <div>Enrolled Courses</div>
         {
           !enrolledCourses ? (
@@ -39,7 +39,7 @@ export const EnrolledCourses = () => {
               </div>
               {
                 enrolledCourses.map((course, index) => (
-                  <div>
+                  <div key={index}>
                     <div>
                       <img src={course.thumbnail} alt="thumbnail" />
                       <div>
