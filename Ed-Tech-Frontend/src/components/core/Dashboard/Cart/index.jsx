@@ -10,11 +10,11 @@ export default function Cart() {
     const {total, totalItems} = useSelector((state) => state.cart);
 
     return (
-        <div>
+        <div className="text-white">
             <h1> Your Cart</h1>
             <p>{totalItems} Courses in cart</p>
             {
-                totalItems > 0 ? (
+                total > 0 ? (
                     <div>
                         <RenderCartCourses/>
                         <RenderTotalAmount/>
