@@ -1,8 +1,8 @@
 import { toast } from "react-hot-toast"
 
 // import { setLoading } from "../../slices/profileSlice";
+import { courseEndpoints } from "../api"
 import { apiConnector } from "../apiconnector"
-import { courseEndpoints } from "../apis"
 
 const {
   COURSE_DETAILS_API,
