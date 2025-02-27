@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { HiOutlineCurrencyRupee } from "react-icons/hi";
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCourseCategories } from '../../../../../services/operations/courseDetailsAPI';
+import { RequirementField } from './RequirementField';
 
 export const CourseInformationForm = () => {
 
@@ -122,6 +123,49 @@ export const CourseInformationForm = () => {
                 </span>
             )}
         </div>
+          {/* create a custom component for handling tags input */}
+        {/* <ChipInput
+            label="Tags"
+            name="courseTags"
+            placeholder="Enter tags and press enter"
+            register={register}
+            errors={errors}
+            setValue={setValue}
+            getValues = {getValues}
+        /> */}
+
+        {/* create a component for uploading and showing preview of media */}
+        {/* <Upload
+            name=
+            label=
+            register={}
+            errors=
+            setValue={}
+            /> */}
+        
+        {/*     Benefits of the Course */}
+
+        <div>
+            <label>Benefits of the course<sup>*</sup></label>
+            <textarea
+                id='coursebenifits'
+                placeholder='Enter Benefits of the course'
+                {...register('courseBenifits', {required: true})}
+                className='min-h-[140px] w-full'
+            />
+            {
+                errors.courseBenifits && 
+                (<span>Course Benefits are required</span>)
+            }
+        </div>
+        <RequirementField
+            name="courseRequirements"
+            label="Requirements/Instructions"
+            register={register}
+            errors={errors}
+            setValue={setValue}
+            getValues={getValues}
+        />
 
    </form>
   )
