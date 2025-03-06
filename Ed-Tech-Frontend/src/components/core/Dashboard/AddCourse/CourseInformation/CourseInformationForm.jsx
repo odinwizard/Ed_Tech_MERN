@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 import { HiOutlineCurrencyRupee } from "react-icons/hi";
 import { useDispatch, useSelector } from 'react-redux';
-import { setCourse, setStep } from '../../../../../../src/slices/courseSlice';
 import { addCourseDetails, editCourseDetails, fetchCourseCategories } from '../../../../../services/operations/courseDetailsAPI';
+import { setCourse, setStep } from '../../../../../slices/courseSlice';
 import { COURSE_STATUS } from '../../../../../utils/constants';
 import { IconBtn } from '../../../../common/IconBtn';
 import { RequirementField } from './RequirementField';
@@ -20,8 +20,9 @@ export const CourseInformationForm = () => {
         formState:{errors},
     } = useForm();
 
+
+    const {token} = useSelector((state) => state.auth);
     const dispatch = useDispatch();
-    const {token} = useSelector((state)=>state.auth);
     const {course, editCourse} = useSelector((state) => state.course);
     const [loading, setLoading] = useState(false);
     const [courseCategories, setCourseCategories] = useState([]);
@@ -50,7 +51,6 @@ export const CourseInformationForm = () => {
         getCategories();
         
     },[])
-
     const isFormUpdated = () => {
         const currentValues = getValues();
         if(currentValues.courseTitle !== course.courseName ||
@@ -139,7 +139,6 @@ export const CourseInformationForm = () => {
         console.log("PRINTING result", result);
 
     }
-
 
   return (
    <form
@@ -258,20 +257,21 @@ export const CourseInformationForm = () => {
             setValue={setValue}
             getValues={getValues}
         />
-        <div>
+         <div>
             {
                 editCourse && (
                     <button
                     onClick={() => dispatch(setStep(2))}
                     className='flex items-center gap-x-2 bg-richblack-300'
                     >
-                        Continue without Saving
+                        Continue Without Saving
                     </button>
                 )
             }
+
             <IconBtn
                 text={!editCourse ? "Next" : "Save Changes"}
-            />
+                />
         </div>
 
    </form>
