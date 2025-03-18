@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   step: 1,
@@ -15,6 +15,7 @@ const courseSlice = createSlice({
       state.step = action.payload
     },
     setCourse: (state, action) => {
+    console.log("Updating course state:", action.payload); // Debugging log
       state.course = action.payload
     },
     setEditCourse: (state, action) => {

@@ -8,6 +8,7 @@ import { createSection, updateSection } from '../../../../../services/operations
 import { setCourse, setEditCourse, setStep } from '../../../../../slices/courseSlice';
 import { setLoading } from '../../../../../slices/profileSlice';
 import { IconBtn } from '../../../../common/IconBtn';
+import { NestedView } from './NestedView';
 
 
 export const CourseBuilderForm = () => {
@@ -43,7 +44,7 @@ export const CourseBuilderForm = () => {
     const onSubmit = async (data) => {
         setLoading(true);
         let result;
-
+        console.log("data", data);
         if(editSectionName) {
             result = await updateSection(
                 {
@@ -72,6 +73,16 @@ export const CourseBuilderForm = () => {
 
     }
 
+    const handleChangeEditSectionName = (sectionId, sectionName) => {
+        if(editSectionName === sectionId) {
+            cancelEdit();
+            return;
+        }
+
+        setEditSectionName(sectionId);
+         setValue("sectionName", sectionName);
+    }
+
 
   return (
     <div className='text-white'>
@@ -79,7 +90,7 @@ export const CourseBuilderForm = () => {
 
         <form onSubmit={handleSubmit(onSubmit)}>
             <div>
-                <label>Section name<sup>*</sup></label>
+                <label htmlFor='sectionName'>Section name<sup>*</sup></label>
                 <input
                     id='sectionName'
                     placeholder='Add section name'
@@ -90,7 +101,7 @@ export const CourseBuilderForm = () => {
                     <span>SectionName is required</span>
                 )}
             </div>
-            <div className='mt-10'>
+            <div className='mt-10 flex w-full'>
                 <IconBtn
                    type='Submit' 
                    text={editSectionName ? "Edit Section Name": "Create Section"}
@@ -113,10 +124,13 @@ export const CourseBuilderForm = () => {
             </div>
         </form>
 
-        {course.courseContent.length > 0 && (
-            <NestedView/>
+        {course?.courseContent?.length > 0 && (
+            <div>
+                <p>{course?.courseContent?.courseName}</p>
+            <NestedView handleChangeEditSectionName={handleChangeEditSectionName}/>
+            </div>
         )}
-        <div className='flex justify-end gap-x-3'>
+        <div className='flex justify-end gap-x-3 mt-10'>
             <button 
             onClick={goBack}
             className='rounded-md cursor-pointer flex items-center'

@@ -79,12 +79,22 @@ exports.createCourse = async (req, res) => {
             {new:true},
          );
          //update the Category schema
-
+         await Category.findByIdAndUpdate(
+			{ _id: category },
+			{
+				$push: {
+					courses: newCourse._id,
+				},
+			},
+			{ new: true }
+		);
+        console.log("All New Course: ", newCourse);
+        const returnValue = await Course.findById(newCourse._id).populate("instructor").populate("category").populate("courseContent").exec();
          //return response
          return res.status(200).json({
             success:true,
             message:"Course created successfully",
-            data:newCourse,
+            data:returnValue,
          });
 
     } catch (error) {

@@ -16,8 +16,7 @@ export const RequirementField = ({name, label, register, errors, setValue, getVa
       }, [])
       
     useEffect(() => {
-        setValue(name, requirementList
-        );
+        setValue(name, requirementList);
     }, [requirementList]);
 
     const handleAddRequirement = () => {

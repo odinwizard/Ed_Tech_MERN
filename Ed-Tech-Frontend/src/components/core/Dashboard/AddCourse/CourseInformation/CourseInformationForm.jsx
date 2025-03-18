@@ -32,14 +32,14 @@ export const CourseInformationForm = () => {
           setLoading(true)
           const categories = await fetchCourseCategories()
           if (categories.length > 0) {
-            // console.log("categories", categories)
+            console.log("categories", categories)
             setCourseCategories(categories);
           }
           setLoading(false);
         }
         // if form is in edit mode
         if (editCourse) {
-          // console.log("data populated", editCourse)
+          console.log("data populated", editCourse)
           setValue("courseTitle", course.courseName)
           setValue("courseShortDesc", course.courseDescription)
           setValue("coursePrice", course.price)
@@ -56,7 +56,7 @@ export const CourseInformationForm = () => {
     
       const isFormUpdated = () => {
         const currentValues = getValues()
-        // console.log("changes after editing form values:", currentValues)
+        console.log("changes after editing form values:", currentValues)
         if (
           currentValues.courseTitle !== course.courseName ||
           currentValues.courseShortDesc !== course.courseDescription ||
@@ -75,7 +75,7 @@ export const CourseInformationForm = () => {
     
       //   handle next button click
       const onSubmit = async (data) => {
-        // console.log(data)
+        //  console.log(`this is courseInformation data: ${data}`);
     
         if (editCourse) {
           // const currentValues = getValues()
@@ -85,7 +85,7 @@ export const CourseInformationForm = () => {
           if (isFormUpdated()) {
             const currentValues = getValues()
             const formData = new FormData()
-            // console.log(data)
+            console.log(data)
             formData.append("courseId", course._id)
             if (currentValues.courseTitle !== course.courseName) {
               formData.append("courseName", data.courseTitle)
@@ -117,9 +117,10 @@ export const CourseInformationForm = () => {
             if (currentValues.courseImage !== course.thumbnail) {
               formData.append("thumbnailImage", data.courseImage)
             }
-            // console.log("Edit Form data: ", formData)
+             console.log("Edit Form data: ", formData)
             setLoading(true)
             const result = await editCourseDetails(formData, token)
+            console.log("Edit Course Result:", result);
             setLoading(false)
             if (result) {
               dispatch(setStep(2))
@@ -128,6 +129,7 @@ export const CourseInformationForm = () => {
           } else {
             toast.error("No changes made to the form")
           }
+         
           return
         }
     
@@ -143,10 +145,13 @@ export const CourseInformationForm = () => {
         formData.append("thumbnailImage", data.courseImage)
         setLoading(true)
         const result = await addCourseDetails(formData, token)
+        console.log("Add Course Result:", result);
         if (result) {
           dispatch(setStep(2))
           dispatch(setCourse(result))
+          
         }
+       
         setLoading(false)
       }
     
