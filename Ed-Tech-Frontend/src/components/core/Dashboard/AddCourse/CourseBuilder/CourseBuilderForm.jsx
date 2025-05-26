@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { GrAddCircle } from "react-icons/gr";
@@ -8,7 +8,7 @@ import { createSection, updateSection } from '../../../../../services/operations
 import { setCourse, setEditCourse, setStep } from '../../../../../slices/courseSlice';
 import { setLoading } from '../../../../../slices/profileSlice';
 import { IconBtn } from '../../../../common/IconBtn';
-import { NestedView } from './NestedView';
+import NestedView from './NestedView';
 
 
 export const CourseBuilderForm = () => {
@@ -123,13 +123,14 @@ export const CourseBuilderForm = () => {
                 }
             </div>
         </form>
-
-        {course?.courseContent?.length > 0 && (
-            <div>
+       
+        { course?.courseContent?.length > 0 && (
+            <div className='text-richblack-50 mt-10'>
                 <p>{course?.courseContent?.courseName}</p>
             <NestedView handleChangeEditSectionName={handleChangeEditSectionName}/>
             </div>
         )}
+        
         <div className='flex justify-end gap-x-3 mt-10'>
             <button 
             onClick={goBack}
