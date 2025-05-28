@@ -1,7 +1,15 @@
 const express = require("express")
 const router = express.Router();
 //import course controllers
-const {createCourse, getAllCourses, getCoursesDetails} = require("../controllers/Course.controllers");
+const {
+  createCourse,
+  getAllCourses,
+  getCoursesDetails,
+  getFullCourseDetails,
+  editCourse,
+  getInstructorCourses,
+  deleteCourse,
+} = require("../controllers/Course.controllers");
 //import categories controllers
 const {createCategory, showAllCategories, categoryPageDetails} = require("../controllers/Category.controllers");
 //import section controllers
@@ -15,6 +23,10 @@ const {auth, isStudent, isInstructor, isAdmin} = require("../middlewares/auth");
 
 //for course route..
 router.post("/createCourse", auth, isInstructor, createCourse);
+// Edit Course routes
+router.post("/editCourse", auth, isInstructor, editCourse)
+
+
 //Add a Section to a Course
 router.post("/addSection", auth, isInstructor, createSection);
 // Update a Section
@@ -27,10 +39,20 @@ router.post("/updateSubSection", auth, isInstructor, updateSubSection);
 router.post("/deleteSubSection", auth, isInstructor, deleteSubSection);
 // Add a Sub Section to a Section
 router.post("/addSubSection", auth, isInstructor, createSubsection);
+// Get all Courses Under a Specific Instructor
+router.get("/getInstructorCourses", auth, isInstructor, getInstructorCourses);
 // Get all Registered Courses
 router.get("/getAllCourses", getAllCourses);
 // Get Details for a Specific Courses
 router.post("/getCourseDetails", getCoursesDetails);
+
+// Get Details for a Specific Courses
+router.post("/getFullCourseDetails", auth, getFullCourseDetails);
+// Delete a Course
+router.delete("/deleteCourse", deleteCourse);
+
+
+
 
 //for category routes
 //Category can Only be Created by Admin
