@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import { Table, Tbody, Td, Th, Thead, Tr } from "react-super-responsive-table";
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 import { deleteCourse, fetchInstructorCourses } from "../../../../services/operations/courseDetailsAPI";
-import { setCourse } from "../../../../slices/courseSlice";
 import { COURSE_STATUS } from "../../../../utils/constants";
 import { ConfirmationModal } from "../../../common/ConfirmationModal";
 
@@ -28,7 +27,7 @@ export const CoursesTable = ({courses, setCourses}) => {
         await deleteCourse({ courseId: courseId}, token)
         const result = await fetchInstructorCourses(token)
         if(result) {
-            setCourse(result)
+            setCourses(result)
         }
         setConfirmationModal(null);
         setLoading(false);
@@ -85,7 +84,7 @@ export const CoursesTable = ({courses, setCourses}) => {
                                                 <div className="flex h-3 w-3 items-center justify-center rounded-full bg-yellow-100 text-richblack-700">
                                                 <FaCheck size={8} />
                                                 </div>
-                                                Published
+                                                PUBLISHED
                                             </p>
                                             )
                                         }
@@ -102,7 +101,7 @@ export const CoursesTable = ({courses, setCourses}) => {
                                     disabled={(loading)}
                                     onClick={() => {
                                         console.log("Edit Clicked Course ID:", course._id);
-                                        navigate(`/dashboard/edit-course/${course._id}`)
+                                        navigate(`/dashboard/edit-course/${course._id}`) //send courseId as params
                                     }}
                                     title="Edit"
                                     className="px-2 transition-all duration-200 hover:scale-110 hover:text-caribbeangreen-300"

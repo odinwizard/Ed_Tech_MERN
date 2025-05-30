@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
 import { useSelector } from "react-redux"
@@ -88,6 +88,34 @@ export default function UpdatePassword() {
               {errors.newPassword && (
                 <span className="-mt-1 text-[12px] text-yellow-100">
                   Please enter your New Password.
+                </span>
+              )}
+            </div>
+            <div className="relative flex flex-col gap-2 lg:w-[48%]">
+              <label htmlFor="confirmNewPassword" className="label-style text-richblack-5">
+                Confirm New Password
+              </label>
+              <input
+                type={showNewPassword ? "text" : "password"}
+                name="confirmNewPassword"
+                id="confirmNewPassword"
+                placeholder="Confirm New Password"
+                className="form-style"
+                {...register("confirmNewPassword", { required: true })}
+              />
+                <span
+                onClick={() => setShowOldPassword((prev) => !prev)}
+                className="absolute right-3 top-[38px] z-[10] cursor-pointer"
+              >
+                {showOldPassword ? (
+                  <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
+                ) : (
+                  <AiOutlineEye fontSize={24} fill="#AFB2BF" />
+                )}
+              </span>
+              {errors.confirmNewPassword && (
+                <span className="-mt-1 text-[12px] text-yellow-100">
+                  Please confirm your New Password.
                 </span>
               )}
             </div>

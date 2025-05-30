@@ -4,41 +4,54 @@ const { uploadFileToCloudinary } = require("../utils/fileUploader.util");
 
 
 exports.updateProfile = async (req, res) => {
-    try {
-        //get data
-        const {dateOfBirth="", about="", contactNumber } = req.body;
-        //get userId
-        const id = req.user.id;
-        //validation
-        // if(!contactNumber || !gender || !id) {
-        //     return res.status(400).json({
-        //         success:false,
-        //         message:"All fields are required"
-        //     });
-        // }
-        //find profile
-        const userDetails = await User.findById(id);
-        //const profileId = userDetails.additionalDetails;
-        const profile = await Profile.findById(userDetails.additionalDetails);
-        //update profile
-        profile.dateOfBirth = dateOfBirth;
-        profile.about = about;
-        //profile.gender = gender;
-        profile.contactNumber = contactNumber;
-        await profile.save();
-        //return response
-        return res.status(200).json({
-            success:true,
-            message:"Profile updated successfully",
-            profile,
-        });
-    } catch (error) {
-        return res.status(500).json({
-            success:false,
-            message:error.message,
-        });
-    }
-};
+  try {
+    const {
+      firstName = "",
+      lastName = "",
+      dateOfBirth = "",
+      about = "",
+      contactNumber = "",
+      gender = "",
+    } = req.body
+    const id = req.user.id
+
+    // Find the profile by id
+    const userDetails = await User.findById(id)
+    const profile = await Profile.findById(userDetails.additionalDetails)
+
+    const user = await User.findByIdAndUpdate(id, {
+      firstName,
+      lastName,
+    })
+    await user.save()
+
+    // Update the profile fields
+    profile.dateOfBirth = dateOfBirth
+    profile.about = about
+    profile.contactNumber = contactNumber
+    profile.gender = gender
+
+    // Save the updated profile
+    await profile.save()
+
+    // Find the updated user details
+    const updatedUserDetails = await User.findById(id)
+      .populate("additionalDetails")
+      .exec()
+
+    return res.json({
+      success: true,
+      message: "Profile updated successfully",
+      updatedUserDetails,
+    })
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({
+      success: false,
+      error: error.message,
+    })
+  }
+}
 
 exports.deleteAccount = async (req, res) => {
     try {

@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { PrivateRoute } from "./components/core/Auth/PrivateRoute";
 import AddCourse from "./components/core/Dashboard/AddCourse";
 import Cart from "./components/core/Dashboard/Cart";
+import { EditCourse } from "./components/core/Dashboard/EditCourse";
 import { EnrolledCourses } from "./components/core/Dashboard/EnrolledCourses";
 import { MyCourses } from "./components/core/Dashboard/MyCourses";
 import { MyProfile } from "./components/core/Dashboard/MyProfile";
@@ -101,7 +102,8 @@ function App() {
         user?.accountType === ACCOUNT_TYPE.INSTRUCTOR && (
           <>
           <Route path="dashboard/add-course" element={<AddCourse />} />
-          <Route path="dashboard/my-courses" element={<MyCourses />} />    
+          <Route path="dashboard/my-courses" element={<MyCourses />} />  
+          <Route path="dashboard/edit-course/:courseId" element={<EditCourse />} />  
           </>
         )
       }
