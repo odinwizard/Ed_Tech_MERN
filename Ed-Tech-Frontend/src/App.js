@@ -14,6 +14,7 @@ import { MyCourses } from "./components/core/Dashboard/MyCourses";
 import { MyProfile } from "./components/core/Dashboard/MyProfile";
 import Settings from "./components/core/Dashboard/Settings";
 import { About } from "./pages/About";
+import { Catalog } from "./pages/Catalog";
 import Contact from "./pages/Contact";
 import { Dashboard } from "./pages/Dashboard";
 import { Error } from "./pages/Error";
@@ -35,6 +36,7 @@ function App() {
       <Navbar/>
       <Routes>
         <Route path="/" element={<Home/>}/>
+        <Route path="catalog/:catalogName" element={<Catalog/>}/>
         <Route
           path="signup"
           element={

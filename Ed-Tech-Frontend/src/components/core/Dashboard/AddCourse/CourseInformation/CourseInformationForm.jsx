@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form'; // Import FormProvider
 import { toast } from 'react-hot-toast';
 import { HiOutlineCurrencyRupee } from "react-icons/hi";
@@ -31,8 +31,9 @@ export const CourseInformationForm = () => {
         const getCategories = async () => {
           setLoading(true)
           const categories = await fetchCourseCategories()
+           console.log("categories from course information", categories)
           if (categories.length > 0) {
-            console.log("categories", categories)
+            console.log("categories from course information", categories)
             setCourseCategories(categories);
           }
           setLoading(false);
@@ -49,7 +50,7 @@ export const CourseInformationForm = () => {
           setValue("courseRequirements", course.instructions)
           setValue("courseImage", course.thumbnail)
         }
-        getCategories()
+        getCategories();
     
         // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [])
@@ -235,8 +236,8 @@ export const CourseInformationForm = () => {
                 Choose a Category
               </option>
               {!loading &&
-                courseCategories?.map((category, indx) => (
-                  <option key={indx} value={category?._id}>
+                courseCategories?.map((category, index) => (
+                  <option key={index} value={category?._id}>
                     {category?.name}
                   </option>
                 ))}
