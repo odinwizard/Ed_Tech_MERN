@@ -25,8 +25,8 @@ export const Course_Card = ({course, Height}) => {
                 </div>
                 <div>
                     <p>{course?.courseName}</p>
-                    <p>{course?.instructor?.firstName}{course?.instructor?.lastName}</p>
-                    <div>
+                    <p>{course?.instructor?.firstName} {course?.instructor?.lastName}</p>
+                    <div className="flex">
                         <span>{avgReviewCount || 0}</span>
                         <RatingStars Review_Count={avgReviewCount}/>
                         <span>{course?.ratingAndReviews?.length} Ratings</span>
