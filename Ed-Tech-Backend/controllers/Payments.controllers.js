@@ -4,6 +4,7 @@ const Course = require("../models/Course.models");
 const User = require("../models/User.models");
 const mailSender = require("../utils/mailSender.util");
 const {courseEnrollmentEmail} = require("../mail/templates/courseEnrollmentEmail");
+const { paymentSuccessEmail } = require("../mail/templates/paymentSuccessEmail");
 
 
 //capture Payment
@@ -106,6 +107,39 @@ exports.verifyPayment = async (req, res) => {
             message: "Payment Failed"
         });     
 }
+
+exports.sendPaymentSuccessEmail = async (req, res) => {
+    const {orderId, paymentId, amount} = req.body;
+
+    const userId = req.user.id;
+
+    if (!orderId || !paymentId || !amount || !userId) {
+        return res.status(400).json({
+            success: false,
+            message: "Please provide all the required fields"
+        });
+    }
+    try {
+        //student findout
+        const enrollStudent = await User.findById(userId);
+        await mailSender(
+            enrollStudent.email,
+            `Payment Recieved`,
+            paymentSuccessEmail(`${enrollStudent.firstName}`,
+                amount/100,
+                orderId, 
+                paymentId
+            )
+        )
+    } catch (error) {
+        console.log("Error in sending mail", error);
+        return res.status(500).json({
+            success:false,
+            message:"Could not send email"
+        });
+    }
+}
+
 
 const enrollStudents = async(courses, userId, res) => {
     if (!courses || !userId) {

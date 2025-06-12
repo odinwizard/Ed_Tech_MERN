@@ -14,7 +14,7 @@ export const Course_Card = ({course, Height}) => {
 
   return (
     <div>
-        <Link to={`/courses/$(course._id)`}>
+        <Link to={`/courses/${course._id}`}>
             <div className="">
                 <div className="rounded-lg">
                     <img
