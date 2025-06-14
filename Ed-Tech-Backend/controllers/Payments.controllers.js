@@ -5,13 +5,14 @@ const User = require("../models/User.models");
 const mailSender = require("../utils/mailSender.util");
 const {courseEnrollmentEmail} = require("../mail/templates/courseEnrollmentEmail");
 const { paymentSuccessEmail } = require("../mail/templates/paymentSuccessEmail");
-
+const crypto = require("crypto");
 
 //capture Payment
 
 exports.capturePayment = async (req, res) => {
 
     const {courses} = req.body;
+    console.log("This is from capture payment", courses);
     const userId = req.user.id;
 
     if (courses.length === 0) {
@@ -21,21 +22,21 @@ exports.capturePayment = async (req, res) => {
         });
     }
     let totalAmount = 0;
-    let uid;
-    uid = mongoose.Types.ObjectId(userId);
+    // let uid;
+    // uid = new mongoose.Types.ObjectId(userId);
     for (const course_id of courses) {
         let course;
         try {
             course = await Course.findById(course_id);
             if (!course) {
-                return res.status(200).json({
+                return res.status(400).json({
                     success: false,
                     message: "Could not find the course"
                 });
             }
-          //  const uid = new mongoose.Types.ObjectId(userId);
+            const uid = new mongoose.Types.ObjectId(userId);
             if (course.studentEnrolled.includes(uid)) {
-                return res.status(200).json({
+                return res.status(400).json({
                     success: false,
                     message: "Student is already purchase the course"
                 })
@@ -61,9 +62,10 @@ exports.capturePayment = async (req, res) => {
 
     try {
         const paymentResponse = await instance.orders.create(options);
+        console.log("This is payment response", paymentResponse);
         res.json({
             success:true,
-            message:paymentResponse,
+            data:paymentResponse,
         })
     } catch (error) {
         console.error(error);
@@ -94,9 +96,10 @@ exports.verifyPayment = async (req, res) => {
 
     let body = razorpay_order_id + "|" + razorpay_payment_id;
     const expectedSignature = crypto.createHmac("sha256", process.env.RAZORPAY_SECRET)
-                                    .update(body.toString)
+                                    .update(body.toString())
                                     .digest("hex");
             if (expectedSignature === razorpay_signature) {
+                 await enrollStudents(courses, userId, res)
                 return res.status(200).json({
                     success:true,
                     message: "Payment Verified"
@@ -112,7 +115,7 @@ exports.sendPaymentSuccessEmail = async (req, res) => {
     const {orderId, paymentId, amount} = req.body;
 
     const userId = req.user.id;
-
+    console.log("From Send payment successfull", orderId, paymentId, amount, userId);
     if (!orderId || !paymentId || !amount || !userId) {
         return res.status(400).json({
             success: false,
@@ -125,7 +128,7 @@ exports.sendPaymentSuccessEmail = async (req, res) => {
         await mailSender(
             enrollStudent.email,
             `Payment Recieved`,
-            paymentSuccessEmail(`${enrollStudent.firstName}`,
+            paymentSuccessEmail(`${enrollStudent.firstName} ${enrollStudent.lastName}`,
                 amount/100,
                 orderId, 
                 paymentId
@@ -153,7 +156,7 @@ const enrollStudents = async(courses, userId, res) => {
              //find the course and enroll the student in it
         const enrolledCourse = await Course.findOneAndUpdate(
             {_id: courseId},
-            {$push:{studentsEnrolled:userId}},
+            {$push:{studentEnrolled:userId}},
             {new:true},
         )
         if(!enrolledCourse){
@@ -172,7 +175,7 @@ const enrollStudents = async(courses, userId, res) => {
                                                         {new:true});
         //send mail to students
         const emailResponse = await mailSender(
-            enrollStudents.email,
+            enrolledStudent.email,
             `Successfully enrolled into ${enrolledCourse.courseName}`,
             courseEnrollmentEmail(enrolledCourse.courseName, `${enrolledStudent.firstName}`),
         )

@@ -36,14 +36,15 @@ export async function buyCourse(token, courses, userDetails, navigate, dispatch)
                                             {courses},
                                         {
                                             Authorization: `Bearer ${token}`,
-                                        })
+                                        });
         if (!orderResponse.data.success) {
             throw new Error(orderResponse.data.message);
         }
-         console.log("PAYMENT RESPONSE FROM BACKEND............", orderResponse.data)
+         console.log("PAYMENT RESPONSE FROM BACKEND............", orderResponse.data.data);
         //options
+        //console.log("Razorpay key", process.env.REACT_APP_RAZORPAY_KEY)
         const options = {
-            key: process.env.RAZORPAY_KEY,
+            key: process.env.REACT_APP_RAZORPAY_KEY,
             currency: orderResponse.data.data.currency,
             amount: `${orderResponse.data.data.amount}`,
             order_id: orderResponse.data.data.id,
@@ -52,13 +53,20 @@ export async function buyCourse(token, courses, userDetails, navigate, dispatch)
             image: rzpLogo,
             prefill: {
                 name:`${userDetails.firstName}`,
-                email:userDetails.email
+                email: userDetails.email
             },
             handler: function(response) {
                 //send successfull message
-                sendPaymentSuccessEmail(response, orderResponse.data.data.amount, token);
+                // let paymentToken = token;
+                //  const paymentData = {
+                //     razorpay_order_id: orderResponse.data.data.id, // manually included
+                //     razorpay_payment_id: response.razorpay_payment_id,
+                //     //razorpay_signature: response.razorpay_signature,
+                //     };
+                console.log("Response inside handler: ", response)
+               sendPaymentSuccessEmail(response, orderResponse.data.data.amount, token)
                 //verifyPayment
-                verifyPayment({...response, courses}, token, navigate, dispatch)
+                verifyPayment({ ...response, courses }, token, navigate, dispatch)
             }
         }
 
@@ -76,21 +84,6 @@ export async function buyCourse(token, courses, userDetails, navigate, dispatch)
         toast.error("Could not make payment");
     }
     toast.dismiss(toastId);
-}
-
-
-async function sendPaymentSuccessEmail(response, amount, token) {
-    try {
-        await apiConnector("POST", SEND_PAYMENT_SUCCESS_EMAIL_API , {
-            orderId: response.razorpay_order_id,
-            paymentId: response.razorpay_payment_id,
-            amount,
-        }, {
-            Authorization: `Bearer ${token}`
-        })
-    } catch (error) {
-        console.log("PAYMENT SUCCESS EMAIL ERROR....", error);
-    }
 }
 
 async function verifyPayment(bodyData, token, navigate, dispatch) {
@@ -114,3 +107,24 @@ async function verifyPayment(bodyData, token, navigate, dispatch) {
     toast.dismiss(toastId);
     dispatch(setPaymentLoading(false));
 }
+
+async function sendPaymentSuccessEmail(response, amount, token) {
+     if (!token) {
+        console.error("Token is missing!"); // 🚨 Debug
+        return;
+    }
+    try {
+        await apiConnector("POST", SEND_PAYMENT_SUCCESS_EMAIL_API ,
+             {
+        orderId: response.razorpay_order_id,
+        paymentId: response.razorpay_payment_id,
+        amount,
+      }, {
+            Authorization: `Bearer ${token}`,
+        })
+    } catch (error) {
+        console.log("PAYMENT SUCCESS EMAIL ERROR....", error);
+    }
+}
+
+

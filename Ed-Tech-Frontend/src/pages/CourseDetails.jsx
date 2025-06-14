@@ -8,11 +8,12 @@ export const CourseDetails = () => {
   const {token} = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const courseId = useParams();
+  const {courseId} = useParams();
 
-  const handleBuyCourse = async () => {
+  const handleBuyCourse = () => {
+    //console.log("this is token", token);
     if(token) {
-      buyCourse(token, {courseId}, user, navigate, dispatch);
+      buyCourse(token, [courseId], user, navigate, dispatch);
       return;
     }
   }
