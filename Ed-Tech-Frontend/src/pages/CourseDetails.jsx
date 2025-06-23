@@ -46,11 +46,11 @@ export const CourseDetails = () => {
     })()
   }, [courseId])
 
-  useEffect(() => {
-  if (response) {
-    console.log("this is response from course details page",response.ratingAndReviews);
-  }
-}, [response]);
+//   useEffect(() => {
+//   if (response) {
+//     console.log("this is response from course details page",response.createdAt);
+//   }
+// }, [response]);
   // Calculating Avg Review count
   const [avgReviewCount, setAvgReviewCount] = useState(0)
   useEffect(() => {
@@ -105,7 +105,6 @@ export const CourseDetails = () => {
     ratingAndReviews,
     instructor,
     studentEnrolled,
-    createdAt,
   } = response
 
 
@@ -171,7 +170,7 @@ export const CourseDetails = () => {
               <div className="flex flex-wrap gap-5 text-lg">
                 <p className="flex items-center gap-2">
                   {" "}
-                  <BiInfoCircle /> Created at {formatDate(createdAt)}
+                  <BiInfoCircle /> Created at {formatDate(response?.instructor?.createdAt)}
                 </p>
                 <p className="flex items-center gap-2">
                   {" "}
