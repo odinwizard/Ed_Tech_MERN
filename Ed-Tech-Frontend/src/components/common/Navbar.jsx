@@ -34,11 +34,11 @@ export const Navbar = () => {
       setLoading(true)
       try {
         const res = await apiConnector("GET", categories.CATEGORIES_API)
-        console.log("this is sublink data", res);
+        //console.log("this is sublink data", res);
         setSubLinks(res?.data?.data)
-        console.log("this is sublink", subLinks);
+        //console.log("this is sublink", subLinks);
       } catch (error) {
-        console.log("Could not fetch Categories.", error)
+        //console.log("Could not fetch Categories.", error)
       }
       setLoading(false)
     })()

@@ -2,10 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { BigPlayButton, Player } from 'video-react';
-import '~video-react/dist/video-react.css';
+import 'video-react/dist/video-react.css';
 import { markLectureAsComplete } from "../../../services/operations/courseDetailsAPI";
 import { updateCompletedLectures } from "../../../slices/viewCourseSlice";
-import IconBtn from "../../common/IconBtn";
+
+import { IconBtn } from "../../common/IconBtn";
 
 
 
@@ -27,13 +28,16 @@ export const VideoDetails = () => {
 
   useEffect(() => {
     const setvideoSpecificDetails = async () => {
+      //console.log("courseSectionData:", courseSectionData);
       if(!courseSectionData.length) return;
+      //console.log("sectionId from URL:", sectionId);
       if(!courseId && !sectionId && !subSectionId) {
         navigate("/dashboard/enrolled-courses");
       } else {
         const filteredData = courseSectionData.filter(
           (course) => course._id === sectionId
         )
+        //console.log('filtered data from video details', filteredData);
         const filteredVideoData = filteredData?.[0].subSection.filter(
           (data) => data._id === subSectionId
         )

@@ -7,6 +7,8 @@ import { getUserEnrolledCourses } from '../../../services/operations/profileApi'
 export const EnrolledCourses = () => {
 
     const {token} = useSelector((state) => state.auth);
+    const { courseSectionData } = useSelector((state) => state.viewCourse);
+
     const navigate = useNavigate();
     const [enrolledCourses, setEnrolledCourses] = useState(null);
     
@@ -14,6 +16,7 @@ export const EnrolledCourses = () => {
         try {
             const response = await getUserEnrolledCourses(token);
             setEnrolledCourses(response);
+            //console.log('I am enrolled courses', enrolledCourses);
         } catch (error) {
             console.log("Unable to get enrolled courses", error);
         }
@@ -51,8 +54,9 @@ export const EnrolledCourses = () => {
                     <div 
                          className="flex w-[45%] cursor-pointer items-center gap-4 px-5 py-3"
                         onClick={() => {
+                          console.log('I am from enrolled courses', course);
                           navigate(
-                            `/view-course/${course?._id}/section/${course.courseContent?.[0]?._id}/sub-section/${course.courseContent?.[0]?.subSection?.[0]?._id}`
+                            `/view-course/${course?._id}/section/${course.courseContent?.[0]}/sub-section/${courseSectionData[0]?.subSection?.[0]?._id}`
                           )
                     }}
                     >
