@@ -26,7 +26,7 @@ function CourseDetailsCard({ course, setConfirmationModal, handleBuyCourse }) {
     price: CurrentPrice,
     _id: courseId,
   } = course
-  console.log("This is from course Details card", course);
+  //console.log("This is from course Details card", course);
   const handleShare = () => {
     copy(window.location.href)
     toast.success("Link copied to clipboard")
@@ -51,7 +51,7 @@ function CourseDetailsCard({ course, setConfirmationModal, handleBuyCourse }) {
     })
   }
 
-   console.log("Student already enrolled ", course?.studentEnrolled, user?._id)
+   //console.log("Student already enrolled ", course?.studentEnrolled, user?._id)
 
   return (
     <>

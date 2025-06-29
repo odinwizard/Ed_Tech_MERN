@@ -53,7 +53,7 @@ export const VideoDetails = () => {
     const currentSectionIndex = courseSectionData.findIndex(
       (data) => data._id === sectionId
     )
-    const currentSubSectionIndex = courseSectionData[currentSectionIndex].subSectionId.findIndex(
+    const currentSubSectionIndex = courseSectionData[currentSectionIndex].subSection.findIndex(
       (data) => data._id === subSectionId
     )
     if(currentSectionIndex === 0 && currentSubSectionIndex === 0) {
@@ -70,7 +70,7 @@ export const VideoDetails = () => {
 
     const noOfSubSections = courseSectionData[currentSectionIndex].subSection.length;
 
-    const currentSubSectionIndex = courseSectionData[currentSectionIndex].subSectionId.findIndex(
+    const currentSubSectionIndex = courseSectionData[currentSectionIndex].subSection.findIndex(
       (data) => data._id === subSectionId
     )
 
@@ -89,7 +89,7 @@ export const VideoDetails = () => {
 
     const noOfSubSections = courseSectionData[currentSectionIndex].subSection.length;
 
-    const currentSubSectionIndex = courseSectionData[currentSectionIndex].subSectionId.findIndex(
+    const currentSubSectionIndex = courseSectionData[currentSectionIndex].subSection.findIndex(
       (data) => data._id === subSectionId
     )
     if(currentSectionIndex !== noOfSubSections - 1) {
@@ -107,9 +107,9 @@ export const VideoDetails = () => {
       (data) => data._id === sectionId
     )
 
-    const noOfSubSections = courseSectionData[currentSectionIndex].subSection.length;
+    //const noOfSubSections = courseSectionData[currentSectionIndex].subSection.length;
 
-    const currentSubSectionIndex = courseSectionData[currentSectionIndex].subSectionId.findIndex(
+    const currentSubSectionIndex = courseSectionData[currentSectionIndex].subSection.findIndex(
       (data) => data._id === subSectionId
     )
     if(currentSectionIndex !== 0){
